@@ -120,7 +120,7 @@ void setup() {
 
     // restore default config
     lsm6dsv80x_reset_set(&imu, LSM6DSV80X_READY);
-    uint8_t rst = 1;
+    lsm6dsv80x_reset_t rst = LSM6DSV80X_GLOBAL_RST; // idk this is a dumb move
     while (rst)
     {
       lsm6dsv80x_reset_get(&imu, &rst);
@@ -259,10 +259,10 @@ void loop() {
   Serial.println();
   delay(500);
 
-  uint8_t xl_drdy;
-  lsm6dsv80x_flag_data_ready_get(&imu, &xl_drdy);
+  lsm6dsv80x_data_ready_t drdy;
+  lsm6dsv80x_flag_data_ready_get(&imu, &drdy);
   //          printf("xl_drdy: %u\n", xl_drdy);
-  if (xl_drdy)
+  if (drdy.drdy_xl)
   {
     memset(acceleration_raw, 0x00, 3 * sizeof(int16_t));
     lsm6dsv80x_acceleration_raw_get(&imu, acceleration_raw);
@@ -315,10 +315,10 @@ void loop() {
   Serial.println();
 
   // gyroscope
-  uint8_t gy_drdy;
-  lsm6dsv80x_flag_data_ready_get(&imu, &gy_drdy); // detect if new data
+  // lsm6dsv80x_data_ready_t drdy;
+  lsm6dsv80x_flag_data_ready_get(&imu, &drdy); // detect if new data
 
-  if (gy_drdy)
+  if (drdy.drdy_gy)
   {                                               // if new data ready
     memset(gyro_raw, 0, 3 * sizeof(int16_t));     // create gyro data holder
     lsm6dsv80x_angular_rate_raw_get(&imu, gyro_raw); // get gyro
