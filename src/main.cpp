@@ -1,13 +1,10 @@
 #include <Arduino.h>
 #include "peripherals.h"
 #include "lsm6dsv80x_reg.h"
-#include "lsm6dsv80x_reg.c"
-#include "driver_w25qxx.c"
 #include "driver_w25qxx.h"
 #include <Wire.h>
 #include <SPI.h>
 #include "lps22hh_reg.h"
-#include "lps22hh_reg.c"
 #include <LPS22HHSensor.h>
 
 #define esp32dev
