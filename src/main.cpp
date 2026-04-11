@@ -64,9 +64,6 @@ int i;
 int LPS22HH_I2C_SDA = I2C_SDA;
 int LPS22HH_I2C_SCL = I2C_SCL;
 
-//Setting up baro communication
-LPS22HHSensor PressTemp(&Wire);
-
 
 void setup() {
 
@@ -209,10 +206,8 @@ void setup() {
     Wire.begin(I2C_SCL, I2C_SDA);
     
 
-  // Initlialize component i think 
-  
-  PressTemp.begin();
-  PressTemp.Enable();
+  // Initlialize baro 
+  Wire.begin();
   
 }
 
