@@ -6,6 +6,7 @@
 #include <SPI.h>
 #include "lps22hh_reg.h"
 #include <LPS22HHSensor.h>
+#include "main.h"
 
 #define esp32dev
 
