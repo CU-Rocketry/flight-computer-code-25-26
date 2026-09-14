@@ -1,4 +1,6 @@
 #include "flash.h"
+#include "driver_w25qxx.h"
+
 
 static w25qxx_handle_t gs_handle;        /**< w25qxx handle */
 
