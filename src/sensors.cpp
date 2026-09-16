@@ -7,6 +7,14 @@
 
 #define G_MS2 9.80665 // [m/s^2]
 
+//define SPI classes here 
+SPIClass *SPI_2 = NULL;
+SPIClass *SPI_3 = NULL;
+
+//define baro I2C pins here 
+int LPS22HH_I2C_SDA = I2C_SDA;
+int LPS22HH_I2C_SCL = I2C_SCL;
+
 stmdev_ctx_t imu; // creating stm class
 lsm6dsv80x_data_ready_t drdy; //imu data ready flag
 
@@ -32,7 +40,7 @@ int16_t gyro_adjusted[3];
 //creater baro variables 
 float pressure, temperature;
 
-void baro_i2c_callback(){
+void baro_callback(){
 PressTemp.GetPressure(&pressure);
 PressTemp.GetTemperature(&temperature);
 
@@ -43,7 +51,7 @@ PressTemp.GetTemperature(&temperature);
 
 }
 
-void imu_spi_callback(){
+void imu_callback(){
 
 
   lsm6dsv80x_flag_data_ready_get(&imu, &drdy); //check to see if data is ready
