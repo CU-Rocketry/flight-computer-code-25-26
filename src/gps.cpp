@@ -1,4 +1,3 @@
-
 #include "gps.h"
 
 void GPS_init()
@@ -52,3 +51,14 @@ void GPS_poll()
     Serial.println();
   }
 }
+
+//TODO
+//add GPS satellites recieved
+//configure GPS data to a callback instead of poll
+//create GPS packet
+
+//USE
+//use the callback nav sat 
+//use the callback in the data loop 
+//use callback nav_pvt (how to setup signal strength data)
+//position-velocity-time-callback (how to setup callback for PVT data)
