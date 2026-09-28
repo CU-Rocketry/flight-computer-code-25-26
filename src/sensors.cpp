@@ -248,7 +248,8 @@ void imu_init(void){
 
 void baro_init(void){
 // Baro Setup
-  Wire.begin(I2C_SDA, I2C_SCL);
+  Wire.setPins(I2C_SDA, I2C_SCL); // Set the I2C pins before begin
+  Wire.begin();
   
 // Initlialize baro 
   Wire.begin();
