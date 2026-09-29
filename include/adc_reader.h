@@ -17,6 +17,9 @@ void batt_sense_get(batt_sense_t *batt_sense, float *out_v, float *out_i){
 
 }
 
+
+#include <Arduino.h>
+
 //need to setup as continous to use DMA buffer
 
 typedef struct {
@@ -26,8 +29,15 @@ typedef struct {
     int avg_read_mvolts;   /*!<ADC average voltage in mV */
 } adc_continuous_result_t;
 
+//define functions
+void analogContinuousSetWidth(uint8_t bits);
+void analogContinuousSetAtten(adc_attenuation_t attenuation);
+bool analogContinuousDeinit();
+bool analogContinuousStop();
+bool analogContinuousStart();
+bool analogContinuousRead(adc_continuous_result_t ** buffer, uint32_t timeout_ms);
+bool analogContinuous(const uint8_t pins[], size_t pins_count, uint32_t conversions_per_pin, uint32_t sampling_freq_hz, void (*userFunc)(void));
 
-#include <Arduino.h>
 
 // Define how many conversion per pin will happen and reading the data will be and average of all conversions
 #define CONVERSIONS_PER_PIN 5
@@ -72,7 +82,7 @@ void setup() {
   analogContinuousStart();
 }
 
-void loop() {
+void batt_sense_get(batt_sense_t *batt_sense,  float *out_v, float *out_i){
   // Check if conversion is done and try to read data
   if (adc_coversion_done == true) {
     // Set ISR flag back to false
