@@ -7,6 +7,10 @@ typedef struct {
 	uint32_t channel_r;
 	uint32_t channel_g;
 	uint32_t channel_b;
+
+	uint32_t tim_channel_r;
+	uint32_t tim_channel_g;
+	uint32_t tim_channel_b;
 } rgb_led; //create RGB led
 
 void rgb_set_color(rgb_led* led, uint32_t color){
@@ -38,18 +42,15 @@ void rgb_init(rgb_led* led){
 const int freq = 5000;         // 5 kHz PWM frequency
 const int resolution = 8;      // 8-bit resolution (0-255)
 
-ledcSetup(0, freq, resolution); // Configure channel properties
-ledcAttachPin(led->channel_r, 0);     // Route channel to GPIO pin via mux
+ledcSetup(led->tim_channel_r, freq, resolution); // Configure channel properties
+ledcAttachPin(led->channel_r, led->tim_channel_r);     // Route channel to GPIO pin via mux
 
-ledcSetup(1, freq, resolution); // Configure channel properties
-ledcAttachPin(led->channel_g, 1);     // Route channel to GPIO pin via mux
+ledcSetup(led->tim_channel_g, freq, resolution); // Configure channel properties
+ledcAttachPin(led->channel_g, led->tim_channel_g);     // Route channel to GPIO pin via mux
 
-ledcSetup(2, freq, resolution); // Configure channel properties
-ledcAttachPin(led->channel_b, 2);     // Route channel to GPIO pin via mux
+ledcSetup(led->tim_channel_b, freq, resolution); // Configure channel properties
+ledcAttachPin(led->channel_b, led->tim_channel_b);     // Route channel to GPIO pin via mux
 
-rgb_set_color(led, 0x000000) //turn off
+rgb_set_color(led, 0x000000); //turn off
 
 }
-
-
-//Setup Buzzer
