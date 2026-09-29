@@ -1,5 +1,7 @@
 // Pin Definitions //
 
+//TODO: Update to match schematic
+
 //GPS 
 #define GPS_TP 21
 #define GPS_EXTINT 3
@@ -17,8 +19,6 @@
 #define STATUS_B  5
 #define STATUS_G  6
 #define STATUS_R  7
-
-#define BATT_SENSE  8
 
 //SPI 2
 #define IMU_CS 9
@@ -42,8 +42,8 @@
  
 
 //PYRO
-#define SENSE_1 19
-#define SENSE_2  4
+#define SENSE_1 2 //GPIO2 ADC1_CH1
+#define SENSE_2  4 //GPIO4 ADC1_CH3
 
 #define PYRO_1 16
 #define PYRO_2 15

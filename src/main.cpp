@@ -36,11 +36,17 @@ rgb_led rgb {
 
 void setup(){
 
+  //initilie all peripherals 
+  
   imu_init();
   baro_init();
+
   GPS_init();
+
   buzzer_init(&buzzer);
 
+  rgb_init(&rgb);
+  rgb_set_color(&rgb, 0x800080); //set led to purple
  
 }
 
@@ -53,5 +59,8 @@ void loop(){
   GPS_poll();
 
   buzzer_update(&buzzer);
+  
+    rgb_led_init(&led1);
+    rgb_led_set(&led0, 0x006000);
   
 }

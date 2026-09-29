@@ -313,3 +313,5 @@ void platform_delay(uint32_t ms)
 {
   delay(1000);
 }
+
+//TODO: create state variables 

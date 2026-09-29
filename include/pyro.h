@@ -1,13 +1,19 @@
 #include "Arduino.h"
 
+//There is no batt sense on this module
+//Only need to configure two pyro channels
+
 typedef struct{
-    uint8_t pin;
+    uint8_t control_pin;
+    uint8_t channel; //ADC1 Channel
+    uint8_t sense_pin; 
 
-} batt_sense_t;
 
-void batt_sense_init(batt_sense_t *batt_sense){
+} pyro_t;
 
-    adcAttachPin(batt_sense->pin);
+void pyro_init(pyro_t *pyro){
+
+    adcAttachPin(pyro->control_pin);
 
 }
 
@@ -28,6 +34,8 @@ typedef struct {
     int avg_read_raw;      /*!<ADC average raw data */
     int avg_read_mvolts;   /*!<ADC average voltage in mV */
 } adc_continuous_result_t;
+
+
 
 //define functions
 void analogContinuousSetWidth(uint8_t bits);
@@ -82,7 +90,7 @@ void setup() {
   analogContinuousStart();
 }
 
-void batt_sense_get(batt_sense_t *batt_sense,  float *out_v, float *out_i){
+void pyro_sense_get(pyro *batt_sense,  float *out_v, float *out_i){
   // Check if conversion is done and try to read data
   if (adc_coversion_done == true) {
     // Set ISR flag back to false
