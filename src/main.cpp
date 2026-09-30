@@ -6,6 +6,7 @@
 #include "gps.h"
 #include "buzzer.h"
 #include "rgb.h"
+#include "btn.h"
 
 buzzer_t buzzer {
 
@@ -19,6 +20,12 @@ buzzer_t buzzer {
 	.seq_playing = 0,
   .pin = BUZZER,
   .tim_channel = 0,
+
+};
+
+btn_t btn0 {
+
+  .pin = BUTT_0,
 
 };
 
@@ -46,7 +53,11 @@ void setup(){
   buzzer_init(&buzzer);
 
   rgb_init(&rgb);
-  rgb_set_color(&rgb, 0x800080); //set led to purple
+  rgb_set_color(&rgb, 0x800080); //set led to purple 
+
+  btn_init(&btn0);
+  
+  
  
 }
 
@@ -59,8 +70,23 @@ void loop(){
   GPS_poll();
 
   buzzer_update(&buzzer);
+
+  boolean btn_value = 0;
+  get_btn(&btn0, btn_value);
+
+  if ( btn_value == 1) {
+
+  rgb_set_color(&rgb, 0x008000);
+  buzzer_play_tone(&buzzer, 2000);
+
+  } else if (btn_value == 0){
+
+    buzzer_play_tone(&buzzer, 0);
+    rgb_set_color(&rgb, 0xFF0000);
+
+  }
   
-    rgb_led_init(&led1);
-    rgb_led_set(&led0, 0x006000);
+
+  
   
 }
