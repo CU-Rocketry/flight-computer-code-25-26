@@ -1,5 +1,7 @@
 #include "gps.h"
 
+SFE_UBLOX_GNSS_SERIAL myGNSS;
+
 void GPS_init()
 {
   Serial.begin(115200);

@@ -10,8 +10,9 @@ void btn_init(btn_t *btn){
 
 }
 
-void get_btn(btn_t *btn, boolean out) {
+void get_btn(btn_t *btn, int out) {
 
     out = digitalRead(btn->pin);
+    Serial.println(out);
 
 }

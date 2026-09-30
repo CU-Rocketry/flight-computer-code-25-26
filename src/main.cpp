@@ -43,12 +43,19 @@ rgb_led rgb {
 
 void setup(){
 
+  delay(1000);
   //initilie all peripherals 
+  Serial.begin(11250);
+  Serial.println("Serial online");
   
   imu_init();
   baro_init();
 
-  GPS_init();
+  Serial.println("sensors initilized");
+
+  // GPS_init();
+
+  // Serial.println("GPS initilized");
 
   buzzer_init(&buzzer);
 
@@ -56,6 +63,8 @@ void setup(){
   rgb_set_color(&rgb, 0x800080); //set led to purple 
 
   btn_init(&btn0);
+
+  Serial.println("peripherals initilized");
   
   
  
@@ -65,28 +74,35 @@ void setup(){
 void loop(){
 
 
+  Serial.println("Loop");
+  delay(1000);
+
   imu_callback();
   baro_callback();
-  GPS_poll();
+  //GPS_poll();
 
   buzzer_update(&buzzer);
 
-  boolean btn_value = 0;
+  int btn_value;
   get_btn(&btn0, btn_value);
 
-  if ( btn_value == 1) {
+  rgb_set_color(&rgb, 0x800080); 
+
+  if ( btn_value == LOW) {
 
   rgb_set_color(&rgb, 0x008000);
   buzzer_play_tone(&buzzer, 2000);
+  Serial.println("Button pressed");
 
-  } else if (btn_value == 0){
+  } else if (btn_value == HIGH){
 
     buzzer_play_tone(&buzzer, 0);
     rgb_set_color(&rgb, 0xFF0000);
+    Serial.println("Button not pressed");
 
   }
   
-
+  buzzer_play_tone(&buzzer, 2000);
   
   
 }

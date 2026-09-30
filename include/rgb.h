@@ -53,4 +53,6 @@ ledcAttachPin(led->channel_b, led->tim_channel_b);     // Route channel to GPIO 
 
 rgb_set_color(led, 0x000000); //turn off
 
+Serial.println("LED Init");
+
 }

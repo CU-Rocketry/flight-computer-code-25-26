@@ -12,9 +12,9 @@
 #define U1_RX  18
 
 // Additional Peripherals
-#define BUZZER 1
+#define BUZZER 16
 
-#define BUTT_0 2
+#define BUTT_0 37
 
 #define STATUS_B  5
 #define STATUS_G  6
