@@ -5,7 +5,7 @@
 
 extern SFE_UBLOX_GNSS_SERIAL myGNSS;
 
-#define mySerial Serial1 // Use Serial1 to connect to the GNSS module. Change this if required
+#define mySerial Serial2 // Use Serial1 to connect to the GNSS module. Change this if required
 
 void GPS_init(void);
 void GPS_poll(void);

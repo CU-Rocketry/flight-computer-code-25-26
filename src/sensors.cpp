@@ -251,10 +251,11 @@ void baro_init(void){
   Wire.setPins(I2C_SDA, I2C_SCL); // Set the I2C pins before begin
   Wire.begin();
   
+  
 // Initlialize baro 
-  Wire.begin();
   PressTemp.begin();
   PressTemp.Enable();
+  Serial.println("baro initilized");
 }
 
 void mag_init(void){

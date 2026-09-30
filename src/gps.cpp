@@ -4,11 +4,10 @@ SFE_UBLOX_GNSS_SERIAL myGNSS;
 
 void GPS_init()
 {
-  Serial.begin(115200);
-  delay(1000); 
+
   Serial.println("SparkFun u-blox Example");
 
-  mySerial.begin(38400, U1_RX, U1_TX); // u-blox F9 and M10 modules default to 38400 baud. Change this if required
+  Serial2.begin(38400, U1_RX, U1_TX); // u-blox F9 and M10 modules default to 38400 baud. Change this if required
 
   //myGNSS.enableDebugging(); // Uncomment this line to enable helpful debug messages on Serial
 

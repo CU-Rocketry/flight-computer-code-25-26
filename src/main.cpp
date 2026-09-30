@@ -45,7 +45,7 @@ void setup(){
 
   delay(1000);
   //initilie all peripherals 
-  Serial.begin(11250);
+  Serial.begin(112500);
   Serial.println("Serial online");
   
   imu_init();
@@ -53,9 +53,9 @@ void setup(){
 
   Serial.println("sensors initilized");
 
-  // GPS_init();
+  //GPS_init();
 
-  // Serial.println("GPS initilized");
+  Serial.println("GPS initilized");
 
   buzzer_init(&buzzer);
 
@@ -86,7 +86,7 @@ void loop(){
   int btn_value;
   get_btn(&btn0, btn_value);
 
-  rgb_set_color(&rgb, 0x800080); 
+  rgb_set_color(&rgb, 0x008000); 
 
   if ( btn_value == LOW) {
 

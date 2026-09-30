@@ -6,13 +6,11 @@ typedef struct{
 
 void btn_init(btn_t *btn){
 
-    pinMode(btn->pin, INPUT);
-
+    pinMode(btn->pin, INPUT_PULLUP);
 }
 
 void get_btn(btn_t *btn, int out) {
 
     out = digitalRead(btn->pin);
-    Serial.println(out);
 
 }
