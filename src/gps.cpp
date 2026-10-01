@@ -1,33 +1,40 @@
 #include "gps.h"
 
-SFE_UBLOX_GNSS_SERIAL myGNSS;
+SFE_UBLOX_GNSS myGNSS;
 
 void GPS_init()
 {
 
   Serial.println("SparkFun u-blox Example");
 
-  mySerial.begin(115200, SERIAL_8N1, U1_RX, U1_TX); // u-blox F9 and M10 modules default to 38400 baud. Change this if required
+  //Assume that the U-Blox GNSS is running at 9600 baud (the default) or at 38400 baud.
+  //Loop until we're in sync and then ensure it's at 38400 baud.
+    Serial.println("SparkFun u-blox Example");
 
-  myGNSS.enableDebugging(); // Uncomment this line to enable helpful debug messages on Serial
-
-  myGNSS.connectedToUART2(); // This tells the library we are connecting to UART2 so it uses the correct configuration keys
-
-  while (myGNSS.begin(mySerial) == false) //Connect to the u-blox module using mySerial (defined above)
-  {
-    Serial.println(F("u-blox GNSS not detected"));
+  //Assume that the U-Blox GNSS is running at 9600 baud (the default) or at 38400 baud.
+  //Loop until we're in sync and then ensure it's at 38400 baud.
+  do {
     
-    Serial.println(F("Attempting to enable the UBX protocol for output"));
-    
-    myGNSS.setUART2Output(COM_TYPE_UBX); // Enable UBX output. Disable NMEA output
-    
-    Serial.println(F("Retrying..."));
-    delay (1000);
-  }
+    Serial.println("GNSS: trying 38400 baud");
+    Serial2.begin(38400, SERIAL_8N1, U1_RX, U1_TX);
+    if (myGNSS.begin(Serial2) == true) break;
 
+    delay(100);
+    Serial.println("GNSS: trying 9600 baud");
+    Serial2.begin(9600);
+    if (myGNSS.begin(Serial2) == true) {
+        Serial.println("GNSS: connected at 9600 baud, switching to 38400");
+        myGNSS.setSerialRate(38400);
+        delay(100);
+    } else {
+        //myGNSS.factoryReset();
+        delay(2000); //Wait a bit before trying again to limit the Serial output
+    }
+  } while(1);
+  Serial.println("GNSS serial connected");
 
-
-  //myGNSS.saveConfigSelective(VAL_CFG_SUBSEC_IOPORT); //Optional: save (only) the communications port settings to flash and BBR
+  myGNSS.setUART1Output(COM_TYPE_UBX); //Set the UART port to output UBX only
+  
 }
 
 void GPS_poll()
