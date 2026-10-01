@@ -1,6 +1,6 @@
 #include "Arduino.h"
 #include "main.h"
-#include <SparkFun_u-blox_GNSS_v3.h>
+#include "SparkFun_u-blox_GNSS_Arduino_Library"
 
 
 extern SFE_UBLOX_GNSS_SERIAL myGNSS;

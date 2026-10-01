@@ -7,21 +7,17 @@
 typedef struct{
     uint8_t control_pin;
     uint8_t sense_pin; 
-    uint8_t channel;
-
-    int avg_read_raw;
-    int avg_read_mvolts;
 } pyro_t;
 
 //need to setup as continous to use DMA buffer
 
 // //this struct is where the results will be
-// typedef struct {
-//     uint8_t pin;           /*!<ADC pin */
-//     uint8_t channel;       /*!<ADC channel */
-//     int avg_read_raw;      /*!<ADC average raw data */
-//     int avg_read_mvolts;   /*!<ADC average voltage in mV */
-// } adc_continuous_result_t;
+typedef struct {
+    uint8_t pin;           /*!<ADC pin */
+    uint8_t channel;       /*!<ADC channel */
+    int avg_read_raw;      /*!<ADC average raw data */
+    int avg_read_mvolts;   /*!<ADC average voltage in mV */
+} adc_continuous_result_t;
 
 //define functions
 void analogContinuousSetWidth(uint8_t bits);
@@ -29,7 +25,7 @@ void analogContinuousSetAtten(adc_attenuation_t attenuation);
 bool analogContinuousDeinit();
 bool analogContinuousStop();
 bool analogContinuousStart();
-bool analogContinuousRead(pyro_t ** buffer, uint32_t timeout_ms);
+bool analogContinuousRead(adc_continuous_result_t ** buffer, uint32_t timeout_ms);
 bool analogContinuous(const uint8_t pins[], size_t pins_count, uint32_t conversions_per_pin, uint32_t sampling_freq_hz, void (*userFunc)(void));
 
 
@@ -56,7 +52,7 @@ void ARDUINO_ISR_ATTR adcComplete() {
   adc_coversion_done = true;
 }
 
-void pyro_init(pyro_t *pyro) {
+void analog_init(void) {
 
 
   // Optional for ESP32: Set the resolution to 9-12 bits (default is 12 bits)
@@ -67,15 +63,21 @@ void pyro_init(pyro_t *pyro) {
 
   // Setup ADC Continuous with following input:
   // array of pins, count of the pins, how many conversions per pin in one cycle will happen, sampling frequency, callback function
-  analogContinuous(adc_pins, adc_pins_count, CONVERSIONS_PER_PIN, 20000, &adcComplete);
+  analogContinuous(adc_pins, adc_pins_count, CONVERSIONS_PER_PIN, 20000, &adcComplete); //this starts the ADC on the given pins (sense pins above)
 
   // Start ADC Continuous conversions
   analogContinuousStart();
 
-  pinMode(pyro->control_pin, OUTPUT);
+  
 }
 
-pyro_t pyro_sense_ADC(pyro_t *pyro,  float *out_v){
+void pyro_init(pyro_t *pyro){
+
+pinMode(pyro->control_pin, OUTPUT);
+
+}
+
+void pyro_sense_ADC(adc_continuous_result_t *result){ //adc to run in the loop
   // Check if conversion is done and try to read data
   if (adc_coversion_done == true) {
     // Set ISR flag back to false
@@ -87,7 +89,7 @@ pyro_t pyro_sense_ADC(pyro_t *pyro,  float *out_v){
       analogContinuousStop();
 
       for (int i = 0; i < adc_pins_count; i++) {
-        Serial.printf("\nADC PIN %u data:", result[i].sense_pin);
+        Serial.printf("\nADC PIN %u data:", result[i].pin);
         Serial.printf("\n   Avg raw value = %d", result[i].avg_read_raw);
         Serial.printf("\n   Avg millivolts value = %d", result[i].avg_read_mvolts);
       }

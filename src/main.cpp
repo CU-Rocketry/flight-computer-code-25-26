@@ -48,12 +48,12 @@ void setup(){
   Serial.begin(112500);
   Serial.println("Serial online");
   
-  imu_init();
-  baro_init();
+  //imu_init();
+  //baro_init();
 
   Serial.println("sensors initilized");
 
-  //GPS_init();
+  GPS_init();
 
   Serial.println("GPS initilized");
 
@@ -77,9 +77,10 @@ void loop(){
   Serial.println("Loop");
   delay(1000);
 
-  imu_callback();
-  baro_callback();
-  //GPS_poll();
+  GPS_poll();
+  // imu_callback();
+  // baro_callback();
+  
 
   buzzer_update(&buzzer);
 

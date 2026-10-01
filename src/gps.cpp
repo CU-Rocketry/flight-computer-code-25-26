@@ -7,9 +7,9 @@ void GPS_init()
 
   Serial.println("SparkFun u-blox Example");
 
-  Serial2.begin(38400, U1_RX, U1_TX); // u-blox F9 and M10 modules default to 38400 baud. Change this if required
+  mySerial.begin(115200, SERIAL_8N1, U1_RX, U1_TX); // u-blox F9 and M10 modules default to 38400 baud. Change this if required
 
-  //myGNSS.enableDebugging(); // Uncomment this line to enable helpful debug messages on Serial
+  myGNSS.enableDebugging(); // Uncomment this line to enable helpful debug messages on Serial
 
   myGNSS.connectedToUART2(); // This tells the library we are connecting to UART2 so it uses the correct configuration keys
 
@@ -24,6 +24,8 @@ void GPS_init()
     Serial.println(F("Retrying..."));
     delay (1000);
   }
+
+
 
   //myGNSS.saveConfigSelective(VAL_CFG_SUBSEC_IOPORT); //Optional: save (only) the communications port settings to flash and BBR
 }
