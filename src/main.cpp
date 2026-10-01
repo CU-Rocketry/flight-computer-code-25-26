@@ -60,6 +60,7 @@ void setup(){
   Serial.println("passed delay");
 
   buzzer_init(&buzzer);
+  
 
   rgb_init(&rgb);
   rgb_set_color(&rgb, 0x800080); //set led to purple 
@@ -67,6 +68,8 @@ void setup(){
   btn_init(&btn0);
 
   Serial.println("peripherals initilized");
+
+  pinMode(BUZZER, OUTPUT);
   
   
  
@@ -106,6 +109,11 @@ void loop(){
   }
   
   buzzer_play_tone(&buzzer, 2000);
+
+  
+  digitalWrite(BUZZER, HIGH);
+  delay(1000);
+  digitalWrite(BUZZER, LOW);
   
   
 }
