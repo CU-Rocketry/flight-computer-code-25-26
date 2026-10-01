@@ -56,6 +56,8 @@ void setup(){
   GPS_init();
 
   Serial.println("GPS initilized");
+  delay(10000);
+  Serial.println("passed delay");
 
   buzzer_init(&buzzer);
 
