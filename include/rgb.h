@@ -42,14 +42,9 @@ void rgb_init(rgb_led* led){
 const int freq = 5000;         // 5 kHz PWM frequency
 const int resolution = 8;      // 8-bit resolution (0-255)
 
-ledcSetup(led->tim_channel_r, freq, resolution); // Configure channel properties
-ledcAttachPin(led->channel_r, led->tim_channel_r);     // Route channel to GPIO pin via mux
-
-ledcSetup(led->tim_channel_g, freq, resolution); // Configure channel properties
-ledcAttachPin(led->channel_g, led->tim_channel_g);     // Route channel to GPIO pin via mux
-
-ledcSetup(led->tim_channel_b, freq, resolution); // Configure channel properties
-ledcAttachPin(led->channel_b, led->tim_channel_b);     // Route channel to GPIO pin via mux
+ledcAttach(led->channel_r, freq, resolution);
+ledcAttach(led->channel_g, freq, resolution);
+ledcAttach(led->channel_b, freq, resolution);
 
 rgb_set_color(led, 0x000000); //turn off
 

@@ -12,9 +12,9 @@
 #define U1_RX  18
 
 // Additional Peripherals
-#define BUZZER 16
+#define BUZZER 1
 
-#define BUTT_0 37
+#define BUTT_0 2
 
 #define STATUS_B  5
 #define STATUS_G  6
@@ -42,7 +42,7 @@
  
 
 //PYRO
-#define SENSE_1 2 //GPIO2 ADC1_CH1
+#define SENSE_1 13 //GPIO2 ADC1_CH1
 #define SENSE_2  4 //GPIO4 ADC1_CH3
 
 #define PYRO_1 16

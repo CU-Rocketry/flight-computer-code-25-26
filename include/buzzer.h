@@ -26,8 +26,7 @@ void buzzer_init(buzzer_t* buzzer){
 const int freq = 2000;         // 2000 kHz PWM frequency
 const int resolution = 8;      // 8-bit resolution (0-255)
 
-ledcSetup(buzzer->tim_channel, freq, resolution); // Configure channel properties
-ledcAttachPin(buzzer->pin, buzzer->tim_channel);     // Route channel to GPIO pin via mux
+ledcAttach(buzzer->pin, freq, resolution);
 
 }
 
@@ -43,17 +42,17 @@ void buzzer_set(buzzer_t* buzzer, uint8_t status) {
 	}
 
 	// update duty cycles
-	ledcWrite(buzzer->tim_channel, ccr);
+	ledcWrite(buzzer->pin, ccr);
 }
 
 
 void buzzer_play_tone(buzzer_t* buzzer, uint16_t freq) {
 	if (freq == 0) { // silent
-		ledcWrite(buzzer->tim_channel, 0); // don't play
+		ledcWrite(buzzer->pin, 0); // don't play
 	} else { // sound playing
 		uint32_t arr = (buzzer->tim_freq / freq) - 1; // calculate period for given frequency
 
-		ledcWrite(buzzer->tim_channel, arr / 2); // update the duty cycle so it stays at 50%
+		ledcWrite(buzzer->pin, arr / 2); // update the duty cycle so it stays at 50%
 	}
 }
 
