@@ -8,6 +8,7 @@
 #include "rgb.h"
 #include "btn.h"
 #include "pyro.h"
+#include "lora.h"
 
 buzzer_t buzzer {
 
@@ -65,7 +66,7 @@ rgb_led rgb {
 
 void setup(){
 
-  delay(1000);
+  delay(500);
   //initilie all peripherals 
   Serial.begin(112500);
   Serial.println("Serial online");
@@ -76,6 +77,7 @@ void setup(){
   Serial.println("sensors initilized");
 
   GPS_init();
+  lora_init();
 
   Serial.println("GPS initilized");
  
@@ -129,11 +131,8 @@ void loop(){
   digitalWrite(BUZZER, LOW);
 
   
-
-
   // pyro_sense_ADC(&pyro1_result);
   //pyro_sense_ADC(&pyro2_result);
-
 
   // get_btn(&btn0, btn_value);
 
@@ -158,11 +157,7 @@ void loop(){
   Serial.printf("ADC analog value = %d\n", analogValue);
   Serial.printf("ADC volts value = %d\n", analogVolts/1000);
 
-
-
-
-
-
+  lora_init();
 
   
 }
