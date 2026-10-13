@@ -53,3 +53,5 @@
 
 #define I2C_SDA 47
 #define I2C_SCL 48
+
+#define BATT_SENSE 8

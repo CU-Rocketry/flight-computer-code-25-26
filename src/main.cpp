@@ -9,6 +9,9 @@
 #include "btn.h"
 #include "pyro.h"
 #include "lora.h"
+#include "batt_sense.h"
+
+//HOLY INCLUDES GODDAMN
 
 buzzer_t buzzer {
 
@@ -25,22 +28,28 @@ buzzer_t buzzer {
 
 };
 
+//setup pyros
 pyro_t pyro1 { 
 
   .control_pin = PYRO_1,
   .sense_pin = SENSE_1,
+  .pyro_value_mv = 0,
+  .pyro_fired = 0,
 
 };
 
-// adc_continuous_data_t pyro1_result {
-//     .pin = SENSE_1,           /*!<ADC pin */
-//     .channel = 0,      /*!<ADC channel */
-//     .avg_read_raw = 0,     /*!<ADC average raw data */
-//     .avg_read_mvolts = 0,   /*!<ADC average voltage in mV */
-// };
+pyro_t pyro2 { 
 
-adc_continuous_data_t pyro2_result{
-    .pin = SENSE_2,           /*!<ADC pin */
+  .control_pin = PYRO_2,
+  .sense_pin = SENSE_2,
+  .pyro_value_mv = 0,
+  .pyro_fired = 0,
+
+};
+
+//setup battery sense
+adc_continuous_data_t batt_sense_result{
+    .pin = BATT_SENSE,           /*!<ADC pin */
     .channel = 1,      /*!<ADC channel */
     .avg_read_raw = 0,     /*!<ADC average raw data */
     .avg_read_mvolts = 0,   /*!<ADC average voltage in mV */
@@ -86,36 +95,25 @@ void setup(){
 
   //buzzer_init(&buzzer);
   
-
   rgb_init(&rgb);
   rgb_set_color(&rgb, 0x800080); //set led to purple 
 
-  //btn_init(&btn0);
-
-  pinMode(BUTT_0, INPUT);
-
-  //setup pyro channel
-  pinMode(PYRO_1, OUTPUT);
-  
-
-    //set the resolution to 12 bits (0-4095)
-  analogReadResolution(12);
-  analogRead(SENSE_1);
-  analogSetPinAttenuation(SENSE_1, ADC_11db);
-
-  digitalWrite(BUTT_0, LOW);
-
   Serial.println("peripherals initilized");
 
-  pinMode(BUZZER, OUTPUT);
-  
- 
+  //initialize pyro channels
+  pyro_init(&pyro1);
+  pyro_init(&pyro2);
+
+  Serial.println("Pyros initialized");
+
+  analog_init();
+
 }
 
 
 void loop(){
 
-  delay(500);
+  delay(500); //sets the refresh rate 
 
   // GPS_poll();
   // imu_callback();
@@ -124,40 +122,7 @@ void loop(){
   buzzer_play_tone(&buzzer, 2000);
   buzzer_update(&buzzer);
 
-  tone(BUZZER, 4000, 100);
-  Serial.println("tone played");
-  digitalWrite(BUZZER, HIGH);
-  delay(100);
-  digitalWrite(BUZZER, LOW);
-
+  batt_sense_ADC(&batt_sense_result); //read out results of battery sense line
   
-  // pyro_sense_ADC(&pyro1_result);
-  //pyro_sense_ADC(&pyro2_result);
 
-  // get_btn(&btn0, btn_value);
-
-  int out = digitalRead(BUTT_0);
-   
-  if (out == HIGH){
-
-    digitalWrite(PYRO_1, LOW);
-
-  } else if (out == LOW){
-  
-    digitalWrite(PYRO_1, HIGH);
-    Serial.println("button pressed");
-
-  }
-
-   // read the analog / millivolts value for pin 2:
-  int analogValue = analogRead(SENSE_1);
-  uint16_t analogVolts = analogReadMilliVolts(SENSE_1);
-
-  // print out the values you read:
-  Serial.printf("ADC analog value = %d\n", analogValue);
-  Serial.printf("ADC volts value = %d\n", analogVolts/1000);
-
-  lora_init();
-
-  
 }

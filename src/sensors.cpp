@@ -4,6 +4,7 @@
 #include "lps22hh_reg.h"
 #include <LPS22HHSensor.h>
 #include "sensors.h"
+#include "Madgwick.h"
 
 #define G_MS2 9.80665 // [m/s^2]
 
@@ -18,7 +19,8 @@ int LPS22HH_I2C_SCL = I2C_SCL;
 stmdev_ctx_t imu; // creating stm class
 lsm6dsv80x_data_ready_t drdy; //imu data ready flag
 
-LPS22HHSensor PressTemp(&Wire); //creating baro class
+
+//declare variables so they may be used elsewhere
 
 //create acceleration variables
 int16_t acceleration_raw[3];
@@ -37,8 +39,10 @@ int16_t gyro_raw_c[3];
 float gyro_offset[3];
 int16_t gyro_adjusted[3];
 
-//creater baro variables 
+//create baro variables 
 float pressure, temperature;
+
+LPS22HHSensor PressTemp(&Wire); //creating baro class
 
 void baro_callback(){
 PressTemp.GetPressure(&pressure);
@@ -315,4 +319,11 @@ void platform_delay(uint32_t ms)
   delay(1000);
 }
 
-//TODO: create state variables 
+//Input the sensor data into Madgwick struct
+
+Madgwick_data_t Madgwick_inputs = {
+
+  .accel_raw = acceleration_raw[3],
+  .gyro_raw = acceleration_raw[3],
+
+};

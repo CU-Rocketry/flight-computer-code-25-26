@@ -6,8 +6,6 @@
 #include <SPI.h>
 #include "main.h"
 
-
-
 // Setup SPI 
 extern SPIClass *SPI_2;
 extern SPIClass *SPI_3;

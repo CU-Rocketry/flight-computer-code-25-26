@@ -2,21 +2,16 @@
 
 SFE_UBLOX_GNSS myGNSS;
 
-void GPS_init()
+void GPS_init(gps_t *GPS)
 {
-
-  Serial.println("SparkFun u-blox Example");
-
-  //Assume that the U-Blox GNSS is running at 9600 baud (the default) or at 38400 baud.
-  //Loop until we're in sync and then ensure it's at 38400 baud.
-    Serial.println("SparkFun u-blox Example");
-
   //Assume that the U-Blox GNSS is running at 9600 baud (the default) or at 38400 baud.
   //Loop until we're in sync and then ensure it's at 38400 baud.
   do {
     
     Serial.println("GNSS: trying 9600 baud");
-    Serial2.begin(9600, SERIAL_8N1, U1_TX, U1_RX);
+    
+    //use serial 2 for all GPS work
+    Serial2.begin(9600, SERIAL_8N1, GPS->GPS_TX, GPS->GPS_RX); 
     if (myGNSS.begin(Serial2) == true) break;
 
   } while(1);
@@ -28,58 +23,33 @@ void GPS_init()
 
 void GPS_poll()
 {
-  // Request (poll) the position, velocity and time (PVT) information.
-  // The module only responds when a new position is available. Default is once per second.
-  // getPVT() returns true when new data is received.
-  // if (myGNSS.getPVT() == true)
-  // {
-  //   int32_t latitude = myGNSS.getLatitude();
-  //   Serial.print(F("Lat: "));
-  //   Serial.print(latitude);
+    // old printing code, save for use with Ground Station
+    // long latitude = myGNSS.getLatitude();
+    // Serial.print(F("Lat: "));
+    // Serial.print(latitude);
 
-  //   int32_t longitude = myGNSS.getLongitude();
-  //   Serial.print(F(" Long: "));
-  //   Serial.print(longitude);
-  //   Serial.print(F(" (degrees * 10^-7)"));
+    // long longitude = myGNSS.getLongitude();
+    // Serial.print(F(" Long: "));
+    // Serial.print(longitude);
+    // Serial.print(F(" (degrees * 10^-7)"));
 
-  //   int32_t altitude = myGNSS.getAltitudeMSL(); // Altitude above Mean Sea Level
-  //   Serial.print(F(" Alt: "));
-  //   Serial.print(altitude);
-  //   Serial.print(F(" (mm)"));
+    // long altitude = myGNSS.getAltitude();
+    // Serial.print(F(" Alt: "));
+    // Serial.print(altitude);
+    // Serial.print(F(" (mm)"));
 
-  //   Serial.println();
-  //}
+    // byte SIV = myGNSS.getSIV();
+    // Serial.print(F(" SIV: "));
+    // Serial.print(SIV);
 
-      
-    long latitude = myGNSS.getLatitude();
-    Serial.print(F("Lat: "));
-    Serial.print(latitude);
+    // Serial.println();
 
-    long longitude = myGNSS.getLongitude();
-    Serial.print(F(" Long: "));
-    Serial.print(longitude);
-    Serial.print(F(" (degrees * 10^-7)"));
-
-    long altitude = myGNSS.getAltitude();
-    Serial.print(F(" Alt: "));
-    Serial.print(altitude);
-    Serial.print(F(" (mm)"));
-
-    byte SIV = myGNSS.getSIV();
-    Serial.print(F(" SIV: "));
-    Serial.print(SIV);
-
-    Serial.println();
+  long latitude = myGNSS.getLatitude();
+  long longitude = myGNSS.getLongitude();
+  long altitude = myGNSS.getAltitude();
+  byte satellites = myGNSS.getSIV();
 
 }
 
-//TODO
-//add GPS satellites recieved
-//configure GPS data to a callback instead of poll
-//create GPS packet
-
-//USE
-//use the callback nav sat 
-//use the callback in the data loop 
 //use callback nav_pvt (how to setup signal strength data)
-//position-velocity-time-callback (how to setup callback for PVT data)
+
