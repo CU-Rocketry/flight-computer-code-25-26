@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "Earhart-GS-Code",
+			"path": "../earhart-gs-code/Earhart-GS-Code"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"cstddef": "c",
+			"string": "c",
+			"optional": "c",
+			"limits": "c",
+			"memory": "c",
+			"new": "c",
+			"functional": "c",
+			"type_traits": "c"
+		}
+	}
+}
